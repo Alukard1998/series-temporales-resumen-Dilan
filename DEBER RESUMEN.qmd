@@ -1,0 +1,151 @@
+---
+title: "Series Temporales: Resumen Modelo ARMA"
+author: "Dilan Pulupa"
+format: html
+editor: visual
+---
+
+## Introducción
+
+Una **serie temporal** es una secuencia de datos recolectados a lo largo del tiempo, donde el orden de las observaciones importa. A diferencia de otros conjuntos de datos, las series temporales presentan dependencia temporal entre observaciones. Esto significa que lo que ocurre en un momento determinado puede estar influenciado por lo que ocurrió antes.
+
+Como se anotó en clase:
+
+> *"Observaciones a lo largo del tiempo (proceso estocástico). El orden cronológico es importante. El objetivo es pronosticar, responder preguntas causales dinámicas."*
+
+La meta principal en el análisis de series temporales es modelar esa dependencia temporal para: - Pronosticar valores futuros - Entender la estructura dinámica del proceso - Identificar patrones de estacionalidad, tendencia, ciclos y ruido
+
+## Proceso Estocástico y Estacionariedad
+
+Un **proceso estocástico** genera una serie temporal. Se dice que es **estacionario** si sus propiedades estadísticas no cambian con el tiempo. Esto facilita el modelado y pronóstico. Existen distintos tipos:
+
+### Estacionariedad Estricta
+
+Un proceso ${Y_t}$ es estrictamente estacionario si para cualquier conjunto de instantes $t_1, t_2$, $\dots$, $t_k$ y cualquier desplazamiento temporal (h):
+
+$$
+F_{Y_{t_1}, \dots, Y_{t_k}} = F_{Y_{t_1+h}, \dots, Y_{t_k+h}}
+$$
+
+Esto significa que la distribución conjunta no cambia en el tiempo.
+
+### Estacionariedad Débil (de segundo orden)
+
+Es más flexible y suficiente para muchos modelos:
+
+-   $\mathbb{E}[Y_t] = \mu$, constante
+
+-   $\text{Var}(Y_t) = \sigma^2 < \infty$
+
+-   $\text{Cov}(Y_t, Y_{t+h} = \gamma(h)$ depende solo del rezago ( h )
+
+De aquí se derivan: 
+
+- **Autocovarianza**: $\gamma(h) = \text{Cov}(Y_t, Y_{t+h})$ 
+
+- **Autocorrelación**: $\rho(h) = \frac{\gamma(h)}{\gamma(0)}$
+
+### Correlograma
+
+Es una gráfica de $\rho(h)$ contra (h), usada para identificar patrones y rezagos significativos.
+
+### Ruido Blanco (White Noise)
+
+Un proceso $W_t \sim WN(0, \sigma^2)$ cumple:
+
+-   Media cero
+
+-   Varianza constante
+
+-   Sin autocorrelación: $\text{Cov}(W_t, W_{t+h}= 0$ si $h\neq 0$
+
+Es el "ruido puro", usado como base para otros modelos.
+
+## Pruebas de Estacionariedad
+
+### Prueba ADF (Dickey-Fuller Aumentada)
+
+Usada para verificar la presencia de raíces unitarias. Si se rechaza la hipótesis nula, la serie es estacionaria.
+
+
+# Pruebas de Autocorrelación
+
+Box-Pierce y Ljung-Box
+
+Estas pruebas evalúan si hay autocorrelaciones significativas en la serie.
+
+
+# Modelo MA(q): Medias Móviles
+
+El modelo MA(q) utiliza los errores pasados como predictores. Su forma es:
+
+$$Y_t = \mu + e_t + \theta_{1e_{t-1}}+\theta_{2e_{t-2}}+\dots+\theta_{qe_{t-q}}$$
+o simplemente:
+
+$Y_t = \mu + \sum{\theta_{ie_{t-1}}+e_t}$ desde $i=1$ hasta $q$
+
+- $\theta_i:$ coeficientes
+
+- $e_t:$ ruido blanco
+
+# Invertibilidad
+
+ Un modelo MA es invertible si las raíces del polinomio están fuera del circulo unitario:
+ 
+$$|\gamma_q|>1$$
+Esto permite repesentarlo como un modelo $AR(\infty)$
+
+
+#Modelo ARMA(p,q)
+
+Combina componentes AR y MA
+
+$$
+Y_t = \alpha +  \sum_{i=1}^{p}\phi_i+Y_{t-i}+e_t+\sum_{i=1}^{q}\theta_i+e_{t-j}
+$$
+- $\phi_i:$ coeficientes autoregresivos
+
+- $\theta_j:$ coeficientes de medias móviles
+
+Condiciones
+
+- Estacionariedad $$|\gamma_p|>1$$
+
+- Invertivibilidad $$|\gamma_q|>1$$
+
+
+
+# Conclusiones
+
+Hasta el modelo ARMA, hemos visto que:
+
+- Las series deben ser estacionarias para aplicar modelos lineales
+
+- La dependencia temporal se estudia mediante autocorrelación
+
+- Los modelos MA y ARMA capturan patrones en errores y valores pasados
+
+- Las condiciones de estacionariedad e invertibilidad aseguran un modelo válido y estable
+
+## Referencias
+
+Sales, F. (s.f.). *Series Temporales con R*. Recuperado de: [https://forosales.github.io/libro-series-temporales/capt1.html#procesos-estacionarios](https://forosales.github.io/libro-series-temporales/capt1.html#procesos-estacionarios)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
